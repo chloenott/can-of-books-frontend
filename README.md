@@ -25,15 +25,26 @@ Mongoose (nosql) is used to store data on the server. The front end requests inf
 
 ## Estimates
 
-Feature 1: Set upyour repositories
+Feature 1: Set up your repositories
 
-Estimate of time needed to complete: 2 hours
+- Estimate of time needed to complete: 2 hours
+- Start time: 1:45 pm
+- Finish time: 2:05 pm
+- Actual time needed to complete: 20 mins
 
-Start time: 1:45 pm
+Feature 2: Storage
 
-Finish time: 2:05 pm
+- Estimate of time needed to complete: 1 hour
+- Start time: 2:10 pm
+- Finish time: 3:10 pm
+- Actual time needed to complete: 1 hour
 
-Actual time needed to complete: 20 mins
+Feature 3: Book Component
+
+- Estimate of time needed to complete: 2 hours
+- Start time: 3:10 pm
+- Finish time: 5:50 pm
+- Actual time needed to complete: 2 hours 40 minutes
 
 ## Credit and Collaborations
 
