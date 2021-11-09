@@ -49,3 +49,38 @@ Feature 3: Book Component
 ## Credit and Collaborations
 
 Jordan Folk and Chloe Nott were lab partners for this assignment.
+
+# Team Agreement
+
+What hours will you be available to communicate?
+- 9 am to 8 pm.
+
+What platform will you use to communicate (ie. Slack, phone …)?
+- Slack
+
+How often will you take breaks?
+- Every 45 minutes or as wanted.
+
+What is your plan if you start to fall behind?
+- Work with a TA or with other students.
+
+Make a list of each parson’s strengths.
+- Chloe's strength is persistence and navigating. Jordan is knowledgeable with backend work and speed.
+
+How can you best utilize these strengths in the development of your application?
+- Leverage speed and persistence to establish application foundation early and have time to work through bugs.
+
+In what areas do you each want to develop greater strength?
+- Jordan wants practice with front end work. Chloe wants to be able to have better estimation times.
+
+Knowing that every person in your team needs to understand the code, how do you plan to approach the day-to-day development?
+- Frequent communication while programming whether navigating or driving. Try not to get ahead of one another.
+
+What will your team do if one person is pulling all the weight while the other person is not contributing?
+- Discuss with teammate and contact the teacher if needed.
+
+What will your team do if one person is taking over the project and not letting the other member contribute?
+- Discuss amongst ourselves.
+
+How will you approach each other and the challenge of building an application knowing that it is impossible for two people to be at the exact same place in understanding and skill level?
+- Discussing the plan ahead of time and working together on each point to make sure that quality work is being created.
