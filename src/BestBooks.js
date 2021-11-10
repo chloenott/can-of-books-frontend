@@ -12,6 +12,17 @@ class BestBooks extends React.Component {
     }
   }
 
+  postBooks = async (bookObj) => {
+    let apiURL = `${process.env.REACT_APP_SERVER_URL}/book`;
+    console.log(apiURL);
+    try {
+        const response = await axios.post(apiURL, bookObj);
+        this.setState({ books: [...this.state.books, response.data] });
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
   /* Done: Make a GET request to your API to fetch books for the logged in user  */
   getBooks = async () => {
     let apiURL = `${process.env.REACT_APP_SERVER_URL}/book`;
@@ -51,7 +62,7 @@ class BestBooks extends React.Component {
           Add Book
         </Button>
 
-        <BookFormModal formModal={this.state.formModal} closeModal={this.closeModal}/>
+        <BookFormModal postBooks={this.postBooks} formModal={this.state.formModal} closeModal={this.closeModal}/>
 
         {this.state.books.length ? (
           <Carousel variant="dark">
