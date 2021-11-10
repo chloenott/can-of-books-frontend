@@ -1,57 +1,79 @@
 import React from 'react';
 import axios from 'axios';
-import { Button, Carousel } from 'react-bootstrap';
+import { Button, Carousel, Container } from 'react-bootstrap';
 import BookFormModal from './BookFormModal';
+import UpdateFormModal from './UpdateFormModal';
 import DeleteButton from './DeleteButton';
+import UpdateButton from './UpdateButton';
 
 class BestBooks extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       books: [],
-      formModal: false
+      formModal: false,
+      updateModal: false
     }
   }
 
   deleteBook = async (bookObj) => {
     let apiURL = `${process.env.REACT_APP_SERVER_URL}/book/${bookObj._id}?email=${bookObj.email}`;
-    console.log(apiURL);
     try {
         const response = await axios.delete(apiURL);
-        console.log(response.status);
         if (response.status === 204) {
           this.getBooks()
         } else {
-          console.log(response)
+          alert(response.status);
         }
     } catch (error) {
-        console.log(error);
+        alert(error.toString());
     }
   }
 
   postBooks = async (bookObj) => {
     let apiURL = `${process.env.REACT_APP_SERVER_URL}/book`;
-    console.log(apiURL);
     try {
         const response = await axios.post(apiURL, bookObj);
-        this.setState({ books: [...this.state.books, response.data] });
+        if (response.status === 201) {
+          this.setState({ books: [...this.state.books, response.data] });
+        } else {
+          alert(response.status);
+        }
     } catch (error) {
-        console.log(error);
+        alert(error.toString());
     }
   }
 
-  /* Done: Make a GET request to your API to fetch books for the logged in user  */
+  putBooks = async (bookObj) => {
+    let apiURL = `${process.env.REACT_APP_SERVER_URL}/book/${bookObj.id}`;
+    try {
+        const response = await axios.put(apiURL, bookObj);
+        if (response.status === 200) {
+          const updatedBooks = [...this.state.books].filter( book => book.id !== response.data._id )
+          this.setState({ books: updatedBooks });
+          this.getBooks();  // Todo: fix workaround.
+        } else {
+          alert(response.status);
+        }
+    } catch (error) {
+        alert(error.toString());
+    }
+  }
+
   getBooks = async () => {
     let apiURL = `${process.env.REACT_APP_SERVER_URL}/book`;
-    console.log(apiURL);
     if (this.props.user) {
       apiURL += `?email=${this.props.user}`
     }
     try {
       const response = await axios.get(apiURL);
-      this.setState({ books: response.data });
+      if (response.status === 200) {
+        this.setState({ books: response.data });
+      } else {
+        alert(response.status);
+      }
     } catch (error) {
-      console.log(error);
+      alert(error.toString());
     }
   }
 
@@ -63,31 +85,40 @@ class BestBooks extends React.Component {
     this.setState({ formModal: false })
   }
 
+  showUpdateModal = () => {
+    this.setState({ updateModal: true })
+  }
+
+  closeUpdateModal = () => {
+    this.setState({ updateModal: false })
+  }
+
   componentDidMount() {
     this.getBooks();
   }
 
   render() {
-    /* Done: render user's books in a Carousel */
     return (
-      <>
+      <Container style={{width: '960px', margin: 'auto'}}>
         <h2>My Essential Lifelong Learning &amp; Formation Shelf</h2>
 
         <Button onClick={() => this.showModal()}>
           Add Book
         </Button>
 
-        <BookFormModal postBooks={this.postBooks} formModal={this.state.formModal} closeModal={this.closeModal}/>
+        <BookFormModal user={this.props.user} postBooks={this.postBooks} formModal={this.state.formModal} closeModal={this.closeModal}/>
 
         {this.state.books.length ? (
-          <Carousel variant="dark">
+          <Carousel>
             {this.state.books.filter(book => book.email === this.props.user ).map( (book, idx) => (
               <Carousel.Item key={book._id}>
-                <img className="d-block w-100" src="https://via.placeholder.com/3x1/999999/999999" alt="background"/>
+                <img className="w-100" src="/books.jpg" alt="background"/>
                 <Carousel.Caption>
                   <h5>{book.title}</h5>
                   <p>{book.description}</p>
                   <DeleteButton book={book} deleteBook={this.deleteBook} />
+                  <UpdateButton book={book} showUpdateModal={this.showUpdateModal}/>
+                  <UpdateFormModal putBooks={this.putBooks} book={book} updateModal={this.state.updateModal} closeUpdateModal={this.closeUpdateModal}/>
                 </Carousel.Caption>
               </Carousel.Item>
             ))}
@@ -96,7 +127,7 @@ class BestBooks extends React.Component {
         ) : (
           <h3>No Books Found :(</h3>
         )}
-      </>
+      </Container>
     )
   }
 }
