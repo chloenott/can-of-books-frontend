@@ -12,7 +12,8 @@ class BestBooks extends React.Component {
     this.state = {
       books: [],
       formModal: false,
-      updateModal: false
+      updateModal: false,
+      book: null
     }
   }
 
@@ -35,7 +36,8 @@ class BestBooks extends React.Component {
     try {
         const response = await axios.post(apiURL, bookObj);
         if (response.status === 201) {
-          this.setState({ books: [...this.state.books, response.data] });
+          //this.setState({ books: [...this.state.books, response.data] });
+          this.getBooks()
         } else {
           alert(response.status);
         }
@@ -49,9 +51,7 @@ class BestBooks extends React.Component {
     try {
         const response = await axios.put(apiURL, bookObj);
         if (response.status === 200) {
-          const updatedBooks = [...this.state.books].filter( book => book.id !== response.data._id )
-          this.setState({ books: updatedBooks });
-          this.getBooks();  // Todo: fix workaround.
+          this.getBooks();
         } else {
           alert(response.status);
         }
@@ -85,8 +85,8 @@ class BestBooks extends React.Component {
     this.setState({ formModal: false })
   }
 
-  showUpdateModal = () => {
-    this.setState({ updateModal: true })
+  showUpdateModal = (book) => {
+    this.setState({ updateModal: true, book: book })
   }
 
   closeUpdateModal = () => {
@@ -107,6 +107,7 @@ class BestBooks extends React.Component {
         </Button>
 
         <BookFormModal user={this.props.user} postBooks={this.postBooks} formModal={this.state.formModal} closeModal={this.closeModal}/>
+        <UpdateFormModal putBooks={this.putBooks} book={this.state.book} updateModal={this.state.updateModal} closeUpdateModal={this.closeUpdateModal}/>
 
         {this.state.books.length ? (
           <Carousel>
@@ -118,7 +119,6 @@ class BestBooks extends React.Component {
                   <p>{book.description}</p>
                   <DeleteButton book={book} deleteBook={this.deleteBook} />
                   <UpdateButton book={book} showUpdateModal={this.showUpdateModal}/>
-                  <UpdateFormModal putBooks={this.putBooks} book={book} updateModal={this.state.updateModal} closeUpdateModal={this.closeUpdateModal}/>
                 </Carousel.Caption>
               </Carousel.Item>
             ))}

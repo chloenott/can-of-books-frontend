@@ -23,7 +23,7 @@ export default class UpdateFormModal extends React.Component {
     render() {
         return (
             <>
-                <Modal show={this.props.updateModal} onHide={() => this.props.closeUpdateModal()}>
+                {this.props.updateModal && this.props.book && <Modal show={this.props.updateModal} onHide={() => this.props.closeUpdateModal()}>
                     <Modal.Body>
                         <Form onSubmit={this.handleSubmit}>
                             <Form.Group controlId="title">
@@ -48,6 +48,7 @@ export default class UpdateFormModal extends React.Component {
                         </Form>
                     </Modal.Body>
                 </Modal>
+                }
             </>
         )
     }

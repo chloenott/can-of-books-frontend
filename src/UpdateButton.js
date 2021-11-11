@@ -5,7 +5,7 @@ export default class UpdateButton extends React.Component {
   render() {
     return (
       <>
-        <Button onClick={() => this.props.showUpdateModal()}>Update Book</Button>
+        <Button onClick={() => this.props.showUpdateModal(this.props.book)}>Update Book</Button>
       </>
     )
   }
