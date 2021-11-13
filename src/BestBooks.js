@@ -61,21 +61,31 @@ class BestBooks extends React.Component {
   }
 
   getBooks = async () => {
-    let apiURL = `${process.env.REACT_APP_SERVER_URL}/book`;
-    if (this.props.user) {
-      apiURL += `?email=${this.props.user}`
-    }
-    try {
-      const response = await axios.get(apiURL);
-      if (response.status === 200) {
-        this.setState({ books: response.data });
-      } else {
-        alert(response.status);
+    // let apiURL = `${process.env.REACT_APP_SERVER_URL}/book`;
+    if (this.props.auth0.isAuthenticated) {
+      try { 
+          const res = await this.props.auth0.getIdTokenClaims();
+
+          const jwt = res.__raw;
+
+          const config = {
+            headers: { "Authorization": `Bearer ${jwt}` },
+            method: 'get',
+            baseURL: process.env.REACT_APP_SERVER_URL,
+            url: `/book`
+          }
+          const response = await axios(config);
+          if (response.status === 200) {
+            this.setState({ books: response.data });
+          } else {
+            alert(response.status);
+          }
       }
-    } catch (error) {
-      alert(error.toString());
-    }
+      catch (error) {
+        alert(error.toString());
+      }
   }
+}
 
   showModal = () => {
     this.setState({ formModal: true })
@@ -93,7 +103,7 @@ class BestBooks extends React.Component {
     this.setState({ updateModal: false })
   }
 
-  componentDidMount() {
+  componentDidMount() { 
     this.getBooks();
   }
 
