@@ -41,7 +41,7 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/">
               {/* Done: if the user is logged in, render the `BestBooks` component, if they are not, render the `Login` component */}
-              {this.props.auth0.isAuthenticated ? false : <Login />}
+              {this.props.auth0.isAuthenticated ? <BestBooks user={this.state.user}/> : <Login />}
             </Route>
             {/* Done: add a route with a path of '/profile' that renders a `Profile` component */}
             <Route path="/profile">

@@ -1,4 +1,5 @@
 import React from 'react';
+import { withAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 import { Button, Carousel, Container } from 'react-bootstrap';
 import BookFormModal from './BookFormModal';
@@ -18,46 +19,85 @@ class BestBooks extends React.Component {
   }
 
   deleteBook = async (bookObj) => {
-    let apiURL = `${process.env.REACT_APP_SERVER_URL}/book/${bookObj._id}?email=${bookObj.email}`;
-    try {
-        const response = await axios.delete(apiURL);
+    if (this.props.auth0.isAuthenticated) {
+      try { 
+        const res = await this.props.auth0.getIdTokenClaims();
+        
+        const jwt = res.__raw;
+        
+        const config = {
+          headers: { "Authorization": `Bearer ${jwt}` },
+          method: 'delete',
+          baseURL: process.env.REACT_APP_SERVER_URL,
+          url: `/book/${bookObj._id}`,
+          data: bookObj
+        }
+        const response = await axios(config);
         if (response.status === 204) {
-          this.getBooks()
+          this.setState({ books: response.data });
         } else {
           alert(response.status);
         }
-    } catch (error) {
+      }
+      catch (error) {
         alert(error.toString());
+      }
     }
   }
+  
 
   postBooks = async (bookObj) => {
-    let apiURL = `${process.env.REACT_APP_SERVER_URL}/book`;
-    try {
-        const response = await axios.post(apiURL, bookObj);
+    if (this.props.auth0.isAuthenticated) {
+      try { 
+        const res = await this.props.auth0.getIdTokenClaims();
+        
+        const jwt = res.__raw;
+        
+        const config = {
+          headers: { "Authorization": `Bearer ${jwt}` },
+          method: 'post',
+          baseURL: process.env.REACT_APP_SERVER_URL,
+          url: `/book`,
+          data: bookObj
+        }
+        const response = await axios(config);
         if (response.status === 201) {
-          //this.setState({ books: [...this.state.books, response.data] });
-          this.getBooks()
+          this.setState({ books: response.data });
         } else {
           alert(response.status);
         }
-    } catch (error) {
+      }
+      catch (error) {
         alert(error.toString());
+      }
     }
   }
-
+  
   putBooks = async (bookObj) => {
-    let apiURL = `${process.env.REACT_APP_SERVER_URL}/book/${bookObj.id}`;
-    try {
-        const response = await axios.put(apiURL, bookObj);
-        if (response.status === 200) {
-          this.getBooks();
-        } else {
-          alert(response.status);
-        }
-    } catch (error) {
+    if (this.props.auth0.isAuthenticated) {
+      try { 
+          const res = await this.props.auth0.getIdTokenClaims();
+
+          const jwt = res.__raw;
+
+          const config = {
+            headers: { "Authorization": `Bearer ${jwt}` },
+            method: 'put',
+            baseURL: process.env.REACT_APP_SERVER_URL,
+            url: `/book/${bookObj.id}`,
+            data: bookObj
+          }
+          const response = await axios(config);
+          if (response.status === 200) {
+            this.setState({ books: response.data });
+          } else {
+            alert(response.status);
+          }
+      }
+      catch (error) {
         alert(error.toString());
-    }
+      }
+  }
   }
 
   getBooks = async () => {
@@ -142,4 +182,4 @@ class BestBooks extends React.Component {
   }
 }
 
-export default BestBooks;
+export default withAuth0(BestBooks);
