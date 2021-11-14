@@ -34,7 +34,7 @@ class BestBooks extends React.Component {
         }
         const response = await axios(config);
         if (response.status === 204) {
-          this.setState({ books: response.data });
+          this.getBooks();
         } else {
           alert(response.status);
         }
@@ -62,7 +62,7 @@ class BestBooks extends React.Component {
         }
         const response = await axios(config);
         if (response.status === 201) {
-          this.setState({ books: response.data });
+          this.getBooks();
         } else {
           alert(response.status);
         }
@@ -89,7 +89,7 @@ class BestBooks extends React.Component {
           }
           const response = await axios(config);
           if (response.status === 200) {
-            this.setState({ books: response.data });
+            this.getBooks();
           } else {
             alert(response.status);
           }
@@ -148,6 +148,7 @@ class BestBooks extends React.Component {
   }
 
   render() {
+    console.log('this.state.books');
     return (
       <Container style={{width: '960px', margin: 'auto'}}>
         <h2>My Essential Lifelong Learning &amp; Formation Shelf</h2>
@@ -160,8 +161,8 @@ class BestBooks extends React.Component {
         <UpdateFormModal putBooks={this.putBooks} book={this.state.book} updateModal={this.state.updateModal} closeUpdateModal={this.closeUpdateModal}/>
 
         {this.state.books.length ? (
-          <Carousel>
-            {this.state.books.filter(book => book.email === this.props.user ).map( (book, idx) => (
+          <Carousel> 
+            {this.state.books.filter(book => book.email === this.props.auth0.user.email).map( (book) => (
               <Carousel.Item key={book._id}>
                 <img className="w-100" src="/books.jpg" alt="background"/>
                 <Carousel.Caption>
@@ -173,7 +174,6 @@ class BestBooks extends React.Component {
               </Carousel.Item>
             ))}
           </Carousel>
-
         ) : (
           <h3>No Books Found :(</h3>
         )}
