@@ -5,7 +5,7 @@ Jordan Folk and Chloe Nott
 # Can of Books
 
 **Author**: Jordan Folk and Chloe Nott
-**Version**: 1.2.0
+**Version**: 1.3.0
 
 ## Overview
 
@@ -24,6 +24,7 @@ Mongoose (nosql) is used to store data on the server. The front end requests inf
 11-8-21: Branch from starter code provided by class.
 11-9-21: Added create and delete books buttons.
 11-10-21: Added update button.
+11-13-21: Added Auth0 functionality
 
 ## Estimates
 
@@ -68,6 +69,13 @@ Lab 13 Feature 1: Update Book
 - Start time: 1:00 pm
 - Finish time: 4:00 pm
 - Actual time needed to complete: 3 hours
+
+Lab 14 Feature 1: auth0
+
+- Estimate of time needed to complete: 3 hours
+- Start time: 9am
+- Finish time: 5:15 pm
+- Actual time needed to complete: 6 hours 15 min
 
 ## Credit and Collaborations
 
